@@ -1,6 +1,14 @@
+//
+// fetchの使いかた
+// https://developer.mozilla.org/ja/docs/Web/API/Fetch_API/Using_Fetch
+//
+// open
+// https://www.npmjs.com/package/opn
+//
 const http = require('http');
 const querystring = require('querystring');
-const opn = require('opn');
+//const opn = require('opn');
+const open = require('open');
 const url = require('url');
 
 const fetch = require('node-fetch');
@@ -20,7 +28,7 @@ const server = http.createServer(async (req, res) => {
 
 	run(code)
 
-//	process.exit(0)
+	// process.exit(0)
     }
 }).listen(80, () => {
     // open the browser to the authorize url to start the workflow
@@ -28,21 +36,23 @@ const server = http.createServer(async (req, res) => {
     // opn(authorizeUrl);
 });
 
-const { execSync } = require('child_process')
+// const { execSync } = require('child_process')
 
 gyazo_client_id = "USECCHCZuVIN3DykF7Ixvy_wR93NqoUWlcMkQK2EoYM" // Space.app用のID
 gyazo_client_secret = "7qcQynnsvWh_AZ78Lp-ZCvPkADG48ZH6jHsKcBpM0t0"
 gyazo_callback_url = "http://localhost/"
 
 // これはNodeで書くべきな?
-cmd = `open 'https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code'`
+//cmd = `open 'https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code'`
 
-console.log('execSync(cmd)')
-const stdout = execSync(cmd)
+cmd = open(`https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code`)
+
+//console.log('execSync(cmd)')
+//const stdout = execSync(cmd)
 
 console.log(`code = ${code}`)
 
-
+// Gyazoのアクセストークン取得
 function run(code){
     console.log(`run code=${code}`)
     token_uri = 'https://gyazo.com/oauth/token'
@@ -64,39 +74,8 @@ function run(code){
     }).then(function(json) {
 	console.log(json.access_token);
     })
-
- //	.then(json => {
-//	console.log(json)
-//    })
-
-    //return fetch(email_uri, {
-    //    headers: {
-    //	Authorization: `Bearer ${json.access_token}`,
-    //    }
-    //})
-    //}).then(res => res.json()).then(json => {
-    //res.end(json.email)
-    //})
 }
 
-//    #
-//    # Gyazoのアクセストークンを取得
-//    #
-//    uri = URI.parse("https://gyazo.com/oauth/token")
-//    req = Net::HTTP::Post.new(uri)
-//    req.set_form_data({
-//                        'code' => gyazo_auth_code,
-//                        'client_id' => gyazo_client_id,
-//                        'client_secret' => gyazo_client_secret,
-//                        'redirect_uri' => gyazo_callback_url,
-//                        'grant_type' => 'authorization_code'
-//                      })
-//    req_options = {
-//      use_ssl: true
-//    }
-//    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-//      http.request(req)
-//    end
 //    puts "response.body = #{response.body}"
 //    set_gyazo_token JSON.parse(response.body)['access_token'] # responseはJSONで返る
 //    dialog("Gyazoアクセストークンが生成されました。","OK",2)
