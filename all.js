@@ -11,19 +11,20 @@ const open = require('open');
 const url = require('url');
 const path = require('path');
 const fs = require('fs');
+const fetch = require('node-fetch');
  
 var Gyazo  = require('gyazo-api');
 
-const fetch = require('node-fetch');
+const gyazo_client_id = "USECCHCZuVIN3DykF7Ixvy_wR93NqoUWlcMkQK2EoYM" // Space.app用のID
+const gyazo_client_secret = "7qcQynnsvWh_AZ78Lp-ZCvPkADG48ZH6jHsKcBpM0t0"
+const gyazo_callback_url = "http://localhost/"
 
-var appdir = path.dirname(process.argv[1])
+const appdir = path.dirname(process.argv[1])
+const gyazo_token_path = appdir + '/gyazo_token'
+var gyazo_token = null
 
 async function get_gyazo_token_and_upload(image,title,desc){
     var code = ''
-    
-    gyazo_client_id = "USECCHCZuVIN3DykF7Ixvy_wR93NqoUWlcMkQK2EoYM" // Space.app用のID
-    gyazo_client_secret = "7qcQynnsvWh_AZ78Lp-ZCvPkADG48ZH6jHsKcBpM0t0"
-    gyazo_callback_url = "http://localhost/"
 
     // コールバックを受け取るためにlocalhostのサーバ立てる
     const server = http.createServer(async (req, res) => {
@@ -38,20 +39,13 @@ async function get_gyazo_token_and_upload(image,title,desc){
 	    
 	    var token = await run(code)
 	    console.log(`token = ${token}`)
-	    
-	    // process.exit(0)
 	}
     }).listen(80, () => {
 	// open the browser to the authorize url to start the workflow
 	
 	// opn(authorizeUrl);
 	open(`https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code`)
-
     });
-    
-    // open(`https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code`)
-
-    var gyazo_token = ''
     
     async function run(code){
 	console.log(`run code=${code}`)
@@ -86,15 +80,7 @@ async function get_gyazo_token_and_upload(image,title,desc){
 	
 	return gyazo_token
     }
-
-    //return gyazo_token
 }
-
-//
-// Gyazoトークンを調べる
-//
-var gyazo_token_path = appdir + '/gyazo_token'
-var gyazo_token = null
 
 function upload_gyazo_with_token(image,token,title,desc){
     var gyazo_client = new Gyazo(token);
@@ -124,4 +110,3 @@ function upload_gyazo(image,title,desc){
 console.log(`------- gyazo_token = ${gyazo_token}`)
 
 upload_gyazo('/Users/masui/Desktop/rect.png','RECT','RECT_DESC')
-    
