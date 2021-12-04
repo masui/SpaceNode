@@ -5,6 +5,9 @@
 // open
 // https://www.npmjs.com/package/opn
 //
+// asyncが全然無意味な気がする...
+//
+
 const http = require('http');
 const querystring = require('querystring');
 const open = require('open');
@@ -41,9 +44,6 @@ async function get_gyazo_token_and_upload(image,title,desc){
 	    console.log(`token = ${token}`)
 	}
     }).listen(80, () => {
-	// open the browser to the authorize url to start the workflow
-	
-	// opn(authorizeUrl);
 	open(`https://gyazo.com/oauth/authorize?client_id=${gyazo_client_id}&redirect_uri=${gyazo_callback_url}&response_type=code`)
     });
     
