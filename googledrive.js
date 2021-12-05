@@ -160,5 +160,6 @@ async function get_google_refresh_token_and_upload(file){
 }
 
 
-upload_googledrive("/Users/masui/Desktop/kanribo.zip")
+// upload_googledrive("/Users/masui/Desktop/kanribo.zip")
 
+exports.upload = upload_googledrive

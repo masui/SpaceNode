@@ -107,6 +107,6 @@ function upload_gyazo(image,title,desc){
     }
 }
 
-console.log(`------- gyazo_token = ${gyazo_token}`)
+// upload_gyazo('/Users/masui/Desktop/rect.png','RECT','RECT_DESC')
 
-upload_gyazo('/Users/masui/Desktop/rect.png','RECT','RECT_DESC')
+exports.upload = upload_gyazo
