@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "fetch": "^1.1.0",
-    "file-type": "^17.0.0",
     "filetype": "^0.1.0",
     "googleapis": "^92.0.0",
     "gyazo": "^0.2.1",

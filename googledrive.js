@@ -15,11 +15,7 @@ const url = require('url');
 const path = require('path');
 const fs = require('fs');
 const fetch = require('node-fetch');
-//const filetype = require('file-type')
 const mime = require('mime-types')
-
-// import {filetype} from 'file-type';
-
  
 const { google } = require('googleapis');
 
@@ -45,8 +41,6 @@ function upload_googledrive(file){
 function upload_googledrive_with_token(file,token){
     console.log(`upload: token=${token}`)
 
-    file = '/Users/masui/Desktop/rect.png';
-    
     var oauth2Client = new google.auth.OAuth2(client_id, client_secret, "http://localhost/");
     oauth2Client.setCredentials({
 	refresh_token: token
@@ -122,12 +116,6 @@ const auth_url = oauth2Client.generateAuthUrl({
   scope: scopes
 });
 
-console.log(oauth2Client)
-console.log(auth_url)
-
-upload_googledrive("/Users/masui/SpaceNode/googledrive.js")
-
-
 async function get_google_refresh_token_and_upload(file){
     var code = ''
 	
@@ -169,49 +157,8 @@ async function get_google_refresh_token_and_upload(file){
 	    upload_googledrive_with_token(file,google_refresh_token)
 	});
     }
-
-    /*
-    //token_uri = 'https://www.googleapis.com/auth/drive' // 全部許可
-    token_uri = 'https://www.googleapis.com/auth/drive.file'
-
-    //token_uri = 'https://www.googleapis.com/auth/token' // 全部許可
-	    
-    res = fetch(token_uri, {
-	method: 'POST',
-	headers: {
-	    'Content-Type': 'application/x-www-form-urlencoded',
-	},
-	body: querystring.stringify({
-	    'client_id': client_id,
-	    'client_secret': client_secret,
-	    'code': code,
-	    'grant_type': 'authorization_code',
-	    'redirect_uri': "http://localhost/"
-	})
-    }).then(function(res) {
-	console.log(res)
-	resjson = res.text()
-	console.log(`res.json() = ${resjson}`)
-	return resjson;
-    }).then(function(json) {
-	console.log(`json = ${json}`)
-	//google_token = json.access_token
-	//console.log(`google_token = ${google_token}`)
-	if(false){
-	    try {
-		fs.writeFileSync(gyazo_token_path,gyazo_token + "\n")
-		console.log('write end');
-		console.log(`gyazo_token === ${gyazo_token}`)
-	    }catch(e){
-		console.log(e);
-	    }
-	    
-	    upload_gyazo_with_token(image,gyazo_token,title,desc)
-	}
-    })
-    */
-    
-    //return gyazo_token
 }
 
+
+upload_googledrive("/Users/masui/Desktop/kanribo.zip")
 
